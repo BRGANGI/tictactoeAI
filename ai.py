@@ -10,7 +10,7 @@ class Node:
         self.children = []
         self.parent = parent
         self.is_terminal = is_terminal
-        self.val = 2
+        self.val = float('inf')
 
 class PlayerAI:
     def __init__(self, name, symbol, is_auto):
@@ -41,22 +41,20 @@ class PlayerAI:
                     node.val = LOSE
                 else:
                     node.val = WIN
-        root.children.sort(key=lambda x: x.val)
         return root
     
     def minimax(self, node, is_max):
         if node.is_terminal:
             return node.val
-
         if is_max:
-            max_eval = -2
+            max_eval = float('-inf')
             for child in node.children:
                 eval = self.minimax(child, False)
                 max_eval = max(eval, max_eval)
             node.val = max_eval
             return max_eval
         else:
-            min_eval = 2
+            min_eval = float('inf')
             for child in node.children:
                 eval = self.minimax(child, True)
                 min_eval = min(eval, min_eval)
@@ -64,7 +62,6 @@ class PlayerAI:
             return min_eval
     
     def get_potential_moves(self, board):
-        
         potential_boards = []
         potential_moves = []
         for i in range(LENGTH):
@@ -105,8 +102,7 @@ class PlayerAI:
             if child.board.state == state:
                 return child
 
-    def win_game(self):
-        print(f"{self.name} has won the game!")
+        
 
 
 

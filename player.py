@@ -21,10 +21,7 @@ class Player:
             self.symbol = "Naughts"
         self.sym = symbol
 
-        if is_auto == "y":
-            self.is_auto = True
-        else:
-            self.is_auto = False
+        self.is_auto = is_auto
         
         
         self.game_tree = None

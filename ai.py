@@ -12,14 +12,11 @@ class Node:
         self.is_terminal = is_terminal
         self.val = 2
 
-class Player:
+class PlayerAI:
     def __init__(self, name, symbol, is_auto):
         self.name = name
-        if symbol == X:
-            self.symbol = "Crosses"
-        else:
-            self.symbol = "Naughts"
-        self.sym = symbol
+
+        self.symbol = symbol
 
         self.is_auto = is_auto
         
@@ -44,7 +41,7 @@ class Player:
             else:
                 if cur_board.check_end() == -1:
                     node.val = 0
-                elif cur_board.turn == self.sym:
+                elif cur_board.turn == self.symbol:
                     node.val = -1
                 else:
                     node.val = 1

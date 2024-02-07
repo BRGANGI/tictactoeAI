@@ -1,4 +1,4 @@
-from player import Player
+from ai import PlayerAI
 from board import Board
 from contants import X, O, EMPTY, LENGTH
 
@@ -6,7 +6,7 @@ class Game:
     def __init__(self):
         self.player_name = input("What is your name? ")
         while True:
-            self.player_symbol = input("Would you like to go naughts or crosses (O / X)? ")
+            self.player_symbol = input("Would you like to go naughts or crosses (X / O)? ")
             if self.player_symbol == X or self.player_symbol == O:
                 break
             print("Please input 'X' or 'O'")
@@ -16,8 +16,8 @@ class Game:
         else:
             self.ai_symbol = X
 
-        self.player = Player(self.player_name, self.player_symbol, False)
-        self.ai_player = Player("AI", self.ai_symbol, True)
+        self.player = PlayerAI(self.player_name, self.player_symbol, False)
+        self.ai_player = PlayerAI("AI", self.ai_symbol, True)
 
 
 
@@ -27,19 +27,19 @@ class Game:
         self.board.print_board()
 
     def get_move(self):
-        if self.board.turn == self.ai_player.sym and (self.board.turn_no == 0 or self.board.turn_no == 1): 
+        if self.board.turn == self.ai_player.symbol and (self.board.turn_no == 0 or self.board.turn_no == 1): 
             print(f"AI is generating their tree...")
             self.ai_player.game_tree = self.ai_player.generate_game_tree(self.board, None)
             self.ai_player.minimax(self.ai_player.game_tree, True)
         
 
-        if self.board.turn == self.ai_player.sym:
+        if self.board.turn == self.ai_player.symbol:
             player = self.ai_player
         else:
             player = self.player
 
         print(f"----{player.symbol}' turn----")
-        if self.board.turn == self.ai_player.sym:
+        if self.board.turn == self.ai_player.symbol:
 
             move = player.choose_move(self.board)
             self.board.make_move(move, player.is_auto)   
@@ -54,7 +54,7 @@ class Game:
     def get_winner(self):
         if self.board.check_end() == -1:
             print("Tied game!")
-        elif self.board.turn == self.ai_player.sym:
+        elif self.board.turn == self.ai_player.symbol:
             self.player.win_game()
         else:
             self.ai_player.win_game()

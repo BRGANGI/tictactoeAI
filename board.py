@@ -9,7 +9,6 @@ class Board:
             for j in range(LENGTH):
                 row.append(EMPTY)
             self.state.append(row)
-
         self.turn = X
         self.opp_turn = O
         self.turn_no = 0
@@ -21,7 +20,7 @@ class Board:
             if not auto:
                 print("Invalid input format, try again")
             return 1
-        
+
         # Out of bounds check
         x = int(move[0])
         y = int(move[2])
@@ -29,13 +28,12 @@ class Board:
             if not auto:
                 print("Coordinates out of bounds, try again")
             return 1
-        
+
         # Space occupied check
         if self.state[x][y] != EMPTY:
             if not auto:
                 print("Space occupied, try again")
             return 1
-
         return 0
 
     # Makes move, returns 1 if move is invalid else it makes move and returns 0
@@ -51,7 +49,7 @@ class Board:
         self.opp_turn = opp
 
         self.turn_no+=1
-        
+
     # Check if game has reached terminal state, return 1 if it has and 0 if not
     def check_end(self):
         # Check each horizontal/vertical line
@@ -70,6 +68,7 @@ class Board:
                     break
                 if j == LENGTH - 1:
                     return 1
+
         # Check downwards diagonal
         for i in range(1, LENGTH):
             cur_down = self.state[i][i]
@@ -79,6 +78,7 @@ class Board:
                 break
             if i == LENGTH - 1:
                 return 1
+
         # Check upwards diagonal
         for i in range(1, LENGTH):
             cur_up = self.state[LENGTH-i-1][i]
@@ -92,13 +92,13 @@ class Board:
         if self.turn_no == LENGTH * LENGTH:
             return -1
         return 0
-    
+
     # Print game board
     def print_board(self):
         print(" " + LENGTH *"-")
-        for i in range(LENGTH):
+        for j in range(LENGTH - 1, -1, -1):
             print("|", end = "")
-            for j in range(LENGTH):
+            for i in range(LENGTH):
                 print(self.state[i][j], end = "")
             print("|")
         print(" " + LENGTH *"-")

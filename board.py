@@ -1,21 +1,16 @@
-from contants import X, O, EMPTY, LENGTH
+from constants import SWITCH_TURN, FINISHED, NOT_FINISHED, DRAW, EMPTY, LENGTH
 
 class Board:
     def __init__(self, turn):
-        #self.state = [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
-        self.state = []
+        self.state = [] # for 3 by 3: [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
         for i in range(LENGTH):
             row = []
             for j in range(LENGTH):
                 row.append(EMPTY)
             self.state.append(row)
+            
         self.turn = turn
-
-        if turn == X:
-            self.opp_turn = O
-        else:
-            self.opp_turn = X
-        
+        self.opp_turn = SWITCH_TURN[turn] 
         self.turn_no = 0
 
     # Validates move, returns 1 on fail and 0 on success
@@ -65,14 +60,14 @@ class Board:
                 if cur_symbol == EMPTY or prev_symbol != cur_symbol:
                     break
                 if j == LENGTH - 1:
-                    return 1
+                    return FINISHED
             for j in range(1, LENGTH):
                 prev_symbol = self.state[j-1][i]
                 cur_symbol = self.state[j][i]
                 if cur_symbol == EMPTY or prev_symbol != cur_symbol:
                     break
                 if j == LENGTH - 1:
-                    return 1
+                    return FINISHED
 
         # Check downwards diagonal
         for i in range(1, LENGTH):
@@ -82,7 +77,7 @@ class Board:
             if cur_down == EMPTY or cur_down != prev_down:
                 break
             if i == LENGTH - 1:
-                return 1
+                return FINISHED
 
         # Check upwards diagonal
         for i in range(1, LENGTH):
@@ -91,12 +86,12 @@ class Board:
             if cur_up == EMPTY or cur_up != prev_up:
                 break
             if i == LENGTH - 1:
-                return 1
+                return FINISHED
 
         # check for a draw
         if self.turn_no == LENGTH * LENGTH:
-            return -1
-        return 0
+            return DRAW
+        return NOT_FINISHED
 
     # Print game board
     def print_board(self):

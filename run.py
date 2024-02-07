@@ -1,9 +1,10 @@
 from game import Game
+from constants import FINISHED
 
 def main():
     game = Game()
 
-    while not game.board.check_end():
+    while game.board.check_end() != FINISHED:
         game.get_move()
 
     game.get_winner()

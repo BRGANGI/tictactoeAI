@@ -1,4 +1,4 @@
-from contants import X, O, EMPTY, LENGTH
+from constants import WIN, LOSE, DRAW, NOT_FINISHED, LENGTH
 from board import Board
 from copy import deepcopy
 from random import choice as rand_choice
@@ -15,12 +15,8 @@ class Node:
 class PlayerAI:
     def __init__(self, name, symbol, is_auto):
         self.name = name
-
         self.symbol = symbol
-
         self.is_auto = is_auto
-        
-        
         self.game_tree = None
 
     
@@ -31,20 +27,20 @@ class PlayerAI:
         potential_boards, potential_moves = self.get_potential_moves(board)
 
         for cur_board, cur_move in zip(potential_boards, potential_moves):
-            if cur_board.check_end():
-                node = Node(cur_board, cur_move, root, True)
-            else:
+            if cur_board.check_end() == NOT_FINISHED:
                 node = Node(cur_board, cur_move, root, False)
+            else:
+                node = Node(cur_board, cur_move, root, True)
             root.children.append(node)
             if node.is_terminal == False:
                 node = self.generate_game_tree(cur_board, node)
             else:
-                if cur_board.check_end() == -1:
-                    node.val = 0
+                if cur_board.check_end() == DRAW:
+                    node.val = DRAW
                 elif cur_board.turn == self.symbol:
-                    node.val = -1
+                    node.val = LOSE
                 else:
-                    node.val = 1
+                    node.val = WIN
         root.children.sort(key=lambda x: x.val)
         return root
     
@@ -84,8 +80,6 @@ class PlayerAI:
     def duplicate_board(self, board):
         tmp_board = Board(board.turn)
         tmp_board.state = deepcopy(board.state)
-        #tmp_board.turn = board.turn
-        #tmp_board.opp_turn = board.opp_turn
         tmp_board.turn_no = board.turn_no
         return tmp_board
     

@@ -1,0 +1,13 @@
+LENGTH = 3
+EMPTY = " "
+X = "X"
+O = "O"
+SWITCH_TURN = {X:O, O:X}
+
+WIN = 1
+LOSE = -1
+DRAW = 0
+
+FINISHED = 1
+NOT_FINISHED = -1
+

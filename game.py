@@ -1,6 +1,6 @@
 from ai import PlayerAI
 from board import Board
-from contants import X, O, EMPTY, LENGTH
+from constants import SWITCH_TURN, X, O, DRAW
 
 class Game:
     def __init__(self):
@@ -10,16 +10,11 @@ class Game:
             if self.player_symbol == X or self.player_symbol == O:
                 break
             print("Please input 'X' or 'O'")
-        
-        if self.player_symbol == X:
-            self.ai_symbol = O
-        else:
-            self.ai_symbol = X
+
+        self.ai_symbol = SWITCH_TURN[self.player_symbol]
 
         self.player = PlayerAI(self.player_name, self.player_symbol, False)
         self.ai_player = PlayerAI("AI", self.ai_symbol, True)
-
-
 
         self.board = Board(input("Who do you want to go first (X / O)? "))
 
@@ -38,7 +33,7 @@ class Game:
         else:
             player = self.player
 
-        print(f"----{player.symbol}' turn----")
+        print(f"----{self.board.turn}'s turn----")
         if self.board.turn == self.ai_player.symbol:
 
             move = player.choose_move(self.board)
@@ -52,7 +47,7 @@ class Game:
         self.board.print_board()
 
     def get_winner(self):
-        if self.board.check_end() == -1:
+        if self.board.check_end() == DRAW:
             print("Tied game!")
         elif self.board.turn == self.ai_player.symbol:
             self.player.win_game()

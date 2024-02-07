@@ -4,19 +4,22 @@ from contants import X, O, EMPTY, LENGTH
 
 class Game:
     def __init__(self):
-        self.board = Board()
         self.x_player = Player(input("Who's playing as crosses?: "), X, input("Would you like them to be an AI player? (y/n): "))
         self.o_player = Player(input("Who's playing as naughts?: "), O, input("Would you like them to be an AI player? (y/n): "))
+
+        self.board = Board(input("Who do you want to go first (X / O)? "))
 
         print("Game start!")
         self.board.print_board()
 
     def get_move(self):
-        if self.x_player.is_auto and self.board.turn_no == 0:
+
+        if self.board.turn == X and self.x_player.is_auto and self.board.turn_no == (0 | 1): 
             print(f"Player {self.x_player.name} is generating their tree...")
             self.x_player.game_tree = self.x_player.generate_game_tree(self.board, None)
             self.x_player.minimax(self.x_player.game_tree, True)
-        elif self.o_player.is_auto and self.board.turn_no == 1:
+        
+        if self.board.turn == O and self.x_player.is_auto and self.board.turn_no == (0 | 1):
             print(f"Player {self.o_player.name} is generating their tree...")
             self.o_player.game_tree = self.o_player.generate_game_tree(self.board, None)
             self.o_player.minimax(self.o_player.game_tree, True)

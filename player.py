@@ -88,10 +88,10 @@ class Player:
 
 
     def duplicate_board(self, board):
-        tmp_board = Board()
+        tmp_board = Board(board.turn)
         tmp_board.state = deepcopy(board.state)
-        tmp_board.turn = board.turn
-        tmp_board.opp_turn = board.opp_turn
+        #tmp_board.turn = board.turn
+        #tmp_board.opp_turn = board.opp_turn
         tmp_board.turn_no = board.turn_no
         return tmp_board
     

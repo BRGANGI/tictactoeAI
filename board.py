@@ -1,7 +1,7 @@
 from contants import X, O, EMPTY, LENGTH
 
 class Board:
-    def __init__(self):
+    def __init__(self, turn):
         #self.state = [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
         self.state = []
         for i in range(LENGTH):
@@ -9,8 +9,13 @@ class Board:
             for j in range(LENGTH):
                 row.append(EMPTY)
             self.state.append(row)
-        self.turn = X
-        self.opp_turn = O
+        self.turn = turn
+
+        if turn == X:
+            self.opp_turn = O
+        else:
+            self.opp_turn = X
+        
         self.turn_no = 0
 
     # Validates move, returns 1 on fail and 0 on success

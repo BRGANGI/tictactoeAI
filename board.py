@@ -2,12 +2,12 @@ from constants import SWITCH_TURN, FINISHED, NOT_FINISHED, DRAW, EMPTY, LENGTH
 
 class Board:
     def __init__(self, turn):
-        self.state = [] # for 3 by 3: [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
-        for i in range(LENGTH):
-            row = []
-            for j in range(LENGTH):
-                row.append(EMPTY)
-            self.state.append(row)
+        self.state = [[EMPTY] * LENGTH for _ in range(LENGTH)] # for 3 by 3: [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
+        # for i in range(LENGTH):
+        #     row = []
+        #     for j in range(LENGTH):
+        #         row.append(EMPTY)
+        #     self.state.append(row)
             
         self.turn = turn
         self.opp_turn = SWITCH_TURN[turn] 

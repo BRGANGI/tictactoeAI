@@ -1,4 +1,4 @@
-from constants import WIN, LOSE, DRAW, NOT_FINISHED, LENGTH
+from constants import WIN, LOSE, DRAW, NOT_FINISHED, LENGTH, EMPTY
 from board import Board
 from copy import deepcopy
 from random import choice as rand_choice
@@ -18,12 +18,13 @@ class PlayerAI:
         self.symbol = symbol
         self.is_auto = is_auto
         self.game_tree = None
+        self.nodes = 0
 
     
     def generate_game_tree(self, board, root):
         if root == None:
             root = Node(board, None, None, False) # root node
-
+        node_count = 0
         potential_boards, potential_moves = self.get_potential_moves(board)
 
         for cur_board, cur_move in zip(potential_boards, potential_moves):
@@ -32,6 +33,7 @@ class PlayerAI:
             else:
                 node = Node(cur_board, cur_move, root, True)
             root.children.append(node)
+            self.nodes+=1
             if node.is_terminal == False:
                 node = self.generate_game_tree(cur_board, node)
             else:
@@ -41,6 +43,7 @@ class PlayerAI:
                     node.val = LOSE
                 else:
                     node.val = WIN
+        
         return root
     
     def minimax(self, node, is_max):
@@ -64,13 +67,18 @@ class PlayerAI:
     def get_potential_moves(self, board):
         potential_boards = []
         potential_moves = []
+        unique_states = []
+        first = True
         for i in range(LENGTH):
             for j in range(LENGTH):
                 tmp_board = self.duplicate_board(board)
                 move = f"{i} {j}"
                 if tmp_board.make_move(move, True) != 1:
-                    potential_boards.append(tmp_board)
-                    potential_moves.append(move)
+                    if first or not self.check_symmetric_states(unique_states, tmp_board.state):
+                        first = False
+                        unique_states.append(tmp_board.state)
+                        potential_boards.append(tmp_board)
+                        potential_moves.append(move)
         return potential_boards, potential_moves
 
 
@@ -96,7 +104,23 @@ class PlayerAI:
         best_node = rand_choice(best_nodes)
         self.game_tree = self.move_down(self.game_tree, best_node.board.state)
         return best_node.last_move
-
+        
+    def check_symmetric_states(self, unique_states, state):
+        for _ in range(4):
+            if state in unique_states:
+                return True
+            rotated = self.rotate(state)
+            state = rotated
+        return False
+    
+    def rotate(self, state):
+        
+        rotated = [[EMPTY] * LENGTH for _ in range(LENGTH)]
+        for i in range(LENGTH):
+            for j in range(LENGTH):
+                rotated[j][LENGTH - 1 - i] = state[i][j]
+        return rotated
+    
     def move_down(self, node, state):
         for child in node.children:
             if child.board.state == state:

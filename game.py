@@ -25,6 +25,8 @@ class Game:
             print(f"AI is generating their tree...")
             self.ai_player.game_tree = self.ai_player.generate_game_tree(self.board, None)
             self.ai_player.minimax(self.ai_player.game_tree, True)
+            print(self.ai_player.nodes)
+
 
         print(f"----{self.board.turn}'s turn----")
         if self.board.turn == self.ai_player.symbol:

@@ -3,14 +3,7 @@ from constants import SWITCH_TURN, FINISHED, NOT_FINISHED, DRAW, EMPTY, LENGTH
 class Board:
     def __init__(self, turn):
         self.state = [[EMPTY] * LENGTH for _ in range(LENGTH)] # for 3 by 3: [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
-        # for i in range(LENGTH):
-        #     row = []
-        #     for j in range(LENGTH):
-        #         row.append(EMPTY)
-        #     self.state.append(row)
-            
         self.turn = turn
-        self.opp_turn = SWITCH_TURN[turn] 
         self.turn_no = 0
 
     # Validates move, returns 1 on fail and 0 on success
@@ -43,11 +36,7 @@ class Board:
         x = int(move[0])
         y = int(move[2])
         self.state[x][y] = self.turn
-
-        opp = self.turn
-        self.turn = self.opp_turn
-        self.opp_turn = opp
-
+        self.turn = SWITCH_TURN[self.turn] 
         self.turn_no+=1
 
     # Check if game has reached terminal state, return 1 if it has and 0 if not

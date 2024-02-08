@@ -25,7 +25,6 @@ class Game:
         if self.board.turn == self.ai_player.symbol:
             if self.board.turn_no <= 1:
                 self.ai_player.check_minimax(self.board)
-
             cur_name = self.ai_player.name
             move = self.ai_player.choose_move(self.board)
             self.board.make_move(move, True)   
@@ -33,10 +32,8 @@ class Game:
             cur_name = self.player_name
             while True:
                 move = input("Where would you like to move? Input coordinate in format <X> <Y>: ")
-                if move != 1:
-                    self.board.make_move(move, False) == 1
+                if self.board.make_move(move, False) != 1:
                     break
-
         print(f"\n{cur_name} moved to {move[0]},{move[2]}")
         self.board.print_board()
 
@@ -44,10 +41,8 @@ class Game:
         if self.board.check_end() == DRAW:
             print("Tied game!")
             return
-        
         if self.board.turn == self.ai_player.symbol:
             winner = self.player_name
         else:
             winner = self.ai_player.name
-
         print(f"{winner} has won the game!")

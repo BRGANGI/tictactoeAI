@@ -6,9 +6,7 @@ def main():
 
     while game.board.check_end() == NOT_FINISHED:
         game.get_move()
-
     game.get_winner()
-
 
 if __name__ == "__main__":
     main()

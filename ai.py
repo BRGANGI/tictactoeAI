@@ -4,11 +4,10 @@ from copy import deepcopy
 from random import choice as rand_choice
 
 class Node:
-    def __init__(self, board, last_move, parent, is_terminal):
+    def __init__(self, board, last_move, is_terminal):
         self.board = board
         self.last_move = last_move
         self.children = []
-        self.parent = parent
         self.is_terminal = is_terminal
         self.val = float('inf')
 
@@ -24,18 +23,16 @@ class PlayerAI:
         print(f"AI is generating their tree...")
         self.game_tree = self.generate_game_tree(board, None)
         
-
-
     def generate_game_tree(self, board, root):
         if root == None:
-            root = Node(board, None, None, False) # root node
+            root = Node(board, None, False) # root node
         node_count = 0
         potential_boards, potential_moves = self.get_potential_moves(board)
         for cur_board, cur_move in zip(potential_boards, potential_moves):
             if cur_board.check_end() == NOT_FINISHED:
-                node = Node(cur_board, cur_move, root, False)
+                node = Node(cur_board, cur_move, False)
             else:
-                node = Node(cur_board, cur_move, root, True)
+                node = Node(cur_board, cur_move, True)
             root.children.append(node)
             self.nodes+=1
             if node.is_terminal == False:
@@ -116,7 +113,6 @@ class PlayerAI:
         return False
     
     def rotate(self, state):
-        
         rotated = [[EMPTY] * LENGTH for _ in range(LENGTH)]
         for i in range(LENGTH):
             for j in range(LENGTH):

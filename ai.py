@@ -26,7 +26,6 @@ class PlayerAI:
             root = Node(board, None, None, False) # root node
         node_count = 0
         potential_boards, potential_moves = self.get_potential_moves(board)
-
         for cur_board, cur_move in zip(potential_boards, potential_moves):
             if cur_board.check_end() == NOT_FINISHED:
                 node = Node(cur_board, cur_move, root, False)
@@ -74,11 +73,11 @@ class PlayerAI:
                 tmp_board = self.duplicate_board(board)
                 move = f"{i} {j}"
                 if tmp_board.make_move(move, True) != 1:
-                    if first or not self.check_symmetric_states(unique_states, tmp_board.state):
-                        first = False
-                        unique_states.append(tmp_board.state)
-                        potential_boards.append(tmp_board)
-                        potential_moves.append(move)
+                    # if first or not self.check_symmetric_states(unique_states, tmp_board.state):
+                    #     first = False
+                        # unique_states.append(tmp_board.state)
+                    potential_boards.append(tmp_board)
+                    potential_moves.append(move)
         return potential_boards, potential_moves
 
 
@@ -92,17 +91,12 @@ class PlayerAI:
         if board.state != self.game_tree.board.state:
             self.game_tree = self.move_down(self.game_tree, board.state)
 
-        best_val = -2
-        best_nodes = []
-        for child in self.game_tree.children:
-            if child.val > best_val:
-                best_val = child.val
-                best_nodes = []
-                best_nodes.append(child)
-            elif child.val == best_val:
-                best_nodes.append(child)
+        nodes_sorted = sorted(self.game_tree.children, key=lambda child: (child.val,child.is_terminal), reverse=True)
+        best_nodes = [node for node in nodes_sorted if (node.is_terminal == nodes_sorted[0].is_terminal and node.val == nodes_sorted[0].val)]
+
         best_node = rand_choice(best_nodes)
         self.game_tree = self.move_down(self.game_tree, best_node.board.state)
+
         return best_node.last_move
         
     def check_symmetric_states(self, unique_states, state):

@@ -24,6 +24,7 @@ class Game:
         if self.board.turn == self.ai_player.symbol and (self.board.turn_no == 0 or self.board.turn_no == 1): 
             print(f"AI is generating their tree...")
             self.ai_player.game_tree = self.ai_player.generate_game_tree(self.board, None)
+            print(self.ai_player.nodes)
             self.ai_player.minimax(self.ai_player.game_tree, True)
             print(self.ai_player.nodes)
 

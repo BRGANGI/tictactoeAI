@@ -1,4 +1,4 @@
-from constants import WIN, LOSE, DRAW, NOT_FINISHED, LENGTH, EMPTY
+from constants import WIN, LOSE, DRAW, NOT_FINISHED, LENGTH, EMPTY, SWITCH_TURN
 from board import Board
 from copy import deepcopy
 from random import choice as rand_choice
@@ -13,12 +13,18 @@ class Node:
         self.val = float('inf')
 
 class PlayerAI:
-    def __init__(self, name, symbol, is_auto):
+    def __init__(self, name, symbol, first):
         self.name = name
         self.symbol = symbol
-        self.is_auto = is_auto
-        self.game_tree = None
         self.nodes = 0
+        if first == self.symbol:
+            board = Board(self.symbol)
+        else:
+            board = Board(SWITCH_TURN[self.symbol])
+        print(f"AI is generating their tree...")
+        self.game_tree = self.generate_game_tree(board, None)
+        
+
 
     def generate_game_tree(self, board, root):
         if root == None:
@@ -60,6 +66,11 @@ class PlayerAI:
                 min_eval = min(eval, min_eval)
             node.val = min_eval
             return min_eval
+        
+    def check_minimax(self, board):
+        if board.turn_no == 1:
+            self.game_tree = self.move_down(self.game_tree, board.state)
+        self.minimax(self.game_tree, True)
     
     def get_potential_moves(self, board):
         potential_boards = []

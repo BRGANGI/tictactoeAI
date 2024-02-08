@@ -16,19 +16,16 @@ class Game:
                 self.board = Board(first)
                 break
             print("Please input 'X' or 'O'")
-        self.ai_player = PlayerAI("AI", SWITCH_TURN[self.player_symbol], True)
-        print(f"AI is generating their tree...")
-        self.ai_player.game_tree = self.ai_player.generate_game_tree(self.board, None)
+        self.ai_player = PlayerAI("AI", SWITCH_TURN[self.player_symbol], first)
         print("Game start!")
         self.board.print_board()
 
     def get_move(self):
         print(f"----{self.board.turn}'s turn----")
         if self.board.turn == self.ai_player.symbol:
-            if self.board.turn_no == 1:
-                self.ai_player.game_tree = self.ai_player.move_down(self.ai_player.game_tree, self.board.state)
             if self.board.turn_no <= 1:
-                self.ai_player.minimax(self.ai_player.game_tree, True)
+                self.ai_player.check_minimax(self.board)
+
             cur_name = self.ai_player.name
             move = self.ai_player.choose_move(self.board)
             self.board.make_move(move, True)   

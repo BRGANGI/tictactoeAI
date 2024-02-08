@@ -20,7 +20,6 @@ class PlayerAI:
         self.game_tree = None
         self.nodes = 0
 
-    
     def generate_game_tree(self, board, root):
         if root == None:
             root = Node(board, None, None, False) # root node
@@ -42,7 +41,6 @@ class PlayerAI:
                     node.val = LOSE
                 else:
                     node.val = WIN
-        
         return root
     
     def minimax(self, node, is_max):
@@ -79,7 +77,6 @@ class PlayerAI:
                     potential_boards.append(tmp_board)
                     potential_moves.append(move)
         return potential_boards, potential_moves
-
 
     def duplicate_board(self, board):
         tmp_board = Board(board.turn)

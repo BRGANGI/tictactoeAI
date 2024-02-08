@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to my Flask App</h1>
+    <div class = "gridContainer">
+        <button class="buttonGrid" id="LT"></button>
+        <button class="buttonGrid" id="MT"></button>
+        <button class="buttonGrid" id="RT"></button>
+        <button class="buttonGrid" id="LM"></button>
+        <button class="buttonGrid" id="MM"></button>
+        <button class="buttonGrid" id="RM"></button>
+        <button class="buttonGrid" id="LB"></button>
+        <button class="buttonGrid" id="MB"></button>
+        <button class="buttonGrid" id="RB"></button>
+    </div>
+    <div class = "buttonStartContainer">
+        <button class="buttonStart" id="start">start</button>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $('.buttonGrid').click(function() {
+            var buttonId = $(this).attr('id');
+            sendClickInfo(buttonId);
+        });
+
+        $('.buttonStart').click(function() {
+            startGame();
+        });
+
+
+        function startGame() {
+            $.ajax({
+                type: 'POST',
+                url: '/main',
+                success: function() {
+                    print("Success")
+                }
+            });
+        }
+
+
+        function sendClickInfo(buttonId) {
+            if ($('#' + buttonId).text() != "") {
+                return
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/button_click',
+                success: function(response) {
+                    $('#' + buttonId).text(response);
+                }
+            });
+        }
+        
+    });
+    </script>
+</body>
+</html>

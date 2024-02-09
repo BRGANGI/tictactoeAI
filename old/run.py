@@ -1,6 +1,6 @@
 from py_scripts.game import Game
 from py_scripts.constants import NOT_FINISHED
-from flask import Flask, render_template, jsonify
+from flask import Flask
 
 app = Flask(__name__)
 

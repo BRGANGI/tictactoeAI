@@ -3,21 +3,25 @@ from py_scripts.board import Board
 from py_scripts.constants import SWITCH_TURN, X, O, DRAW
 
 class Game:
-    def __init__(self):
-        self.player_name = input("What is your name? ")
-        while True:
-            self.player_symbol = input("Would you like to go naughts or crosses (X / O)? ")
-            if self.player_symbol == X or self.player_symbol == O:
-                break
-            print("Please input 'X' or 'O'")
-        while True:
-            first = input("Who do you want to go first (X / O)? ")
-            if first == X or first == O:
-                self.board = Board(first)
-                break
-            print("Please input 'X' or 'O'")
+    def __init__(self, player_name, player_symbol, first):
+        self.player_name = player_name
+        # while True:
+        self.player_symbol = player_symbol
+        #     if self.player_symbol == X or self.player_symbol == O:
+        #         break
+        #     print("Please input 'X' or 'O'")
+        # while True:
+        self.board = Board(first)
+            # if first == X or first == O:
+            #     
+            #     break
+            # print("Please input 'X' or 'O'")
         self.ai_player = PlayerAI("AI", SWITCH_TURN[self.player_symbol], first)
         print("Game start!")
+
+        print("Player name: " + player_name)
+        print("Player symbol: " + player_symbol)
+        print("first: " + first)
         self.board.print_board()
 
     def get_move(self):

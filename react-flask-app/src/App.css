@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+.button-grid {
+  background-color: #04AA6D;
+  color: white;
+  text-align: center;
+  font-size: 200px;
+  line-height: 200px;
+  width:200px;
+  height:200px;
+  border-style: outset;
+}
+
+.grid-container {
+  display: grid;
+  gap: 0px;
+  grid-template-columns: repeat(3, 0fr);
+}
+
+.button-start {
+  background-color: #04AA6D;
+  color: white;
+  text-align: center;
+  font-size: 30px;
+}
+
+.button-restart {
+  background-color: #04AA6D;
+  color: white;
+  text-align: center;
+  font-size: 30px;
+}

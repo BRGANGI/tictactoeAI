@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Welcome to my Flask App</h1>
-    <div class = "gridContainer">
+    <div class = "gridContainer", id = "ticTacToeGrid">
         <button class="buttonGrid" id="LT"></button>
         <button class="buttonGrid" id="MT"></button>
         <button class="buttonGrid" id="RT"></button>
@@ -20,11 +20,16 @@
     </div>
     <div class = "buttonStartContainer">
         <button class="buttonStart" id="start">start</button>
+        <button class="buttonRestart" id="restart">restart</button>
     </div>
     <script>
     $(document).ready(function() {
+        var gameStarted = false;
+
         $('.buttonGrid').click(function() {
+            if (!gameStarted) { return; }
             var buttonId = $(this).attr('id');
+            if ($('#' + buttonId).text() != "") { return; }
             sendClickInfo(buttonId);
         });
 
@@ -32,8 +37,12 @@
             startGame();
         });
 
+        $('.buttonRestart').click(function() {
+            restartGame();
+        });
 
         function startGame() {
+            gameStarted = true;
             $.ajax({
                 type: 'POST',
                 url: '/main',
@@ -43,11 +52,15 @@
             });
         }
 
-
-        function sendClickInfo(buttonId) {
-            if ($('#' + buttonId).text() != "") {
-                return
+        function restartGame() {
+            var grid = document.getElementById('ticTacToeGrid').getElementsByTagName("*");
+            for (square of grid) {
+                $(square).text("");
             }
+            startGame()
+        }
+        
+        function sendClickInfo(buttonId) {
             $.ajax({
                 type: 'POST',
                 url: '/button_click',
@@ -56,7 +69,6 @@
                 }
             });
         }
-        
     });
     </script>
 </body>

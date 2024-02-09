@@ -1,5 +1,5 @@
-from game import Game
-from constants import NOT_FINISHED
+from py_scripts.game import Game
+from py_scripts.constants import NOT_FINISHED
 from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
@@ -27,7 +27,6 @@ def main():
     while game.board.check_end() == NOT_FINISHED:
         game.get_move()
     game.get_winner()
-
 
 if __name__ == '__main__':
     app.run(debug=True)

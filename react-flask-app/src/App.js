@@ -7,6 +7,7 @@ function App() {
   const [symbol, setSymbol] = useState('');
   const [grid, setGrid] = useState(Array(9).fill('')); 
   const [turn, setTurn] = useState('');
+  const [winner, setWinner] = useState('');
   const BOARD_DIM = 3;
 
   const symbols = {
@@ -34,11 +35,11 @@ function App() {
 
 
   useEffect(() => {
-    console.log("Grid changed", grid);
-  }, [grid]);
+
+  }, []);
 
   function clickSquare(index) {
-    if (!started || grid[index] !== '') return;
+    if (!started || grid[index] !== '' || winner !== '') return;
     updateGrid(index, symbol);
     const moveData = { coord: indexToCoord[index] };
     
@@ -53,17 +54,31 @@ function App() {
     })
     .then(response => response.json())
     .then(response => {
+      console.log("Response: ", response);
+      if (response.opp_move === '') {
+        handleWin(response.winner);
+      }
       const [x, y] = response.opp_move.split(' ');
       aiMoveIndex = coordToIndex(`${x} ${y}`);
       updateGrid(aiMoveIndex, symbols[symbol]);
       changeTurn(turn);
+      if (response.winner !== '') {
+        handleWin(response.winner);
+      }
     })
     .catch(error => {
       console.error('Error processing move:', error);
     });
   }
   
-
+  function handleWin(winner) {
+    setWinner(winner);
+    if (winner === 'tie') {
+      document.getElementById("winner").textContent="It's a tie";
+    } else {
+      document.getElementById("winner").textContent=`${winner} has won`;
+    }
+  }
 
   function updateGrid(index, player) {
     if (grid[index] !== '') return;
@@ -77,8 +92,10 @@ function App() {
   function handleRestartGame() {
     setSymbol('')
     setFirst('')
+    setWinner('')
     setStarted(false)
     setGrid(Array(9).fill(''));
+    document.getElementById("winner").textContent="";
   }
 
   function handleFirstAndSymbol(route, sym) {
@@ -111,7 +128,6 @@ function App() {
 
   function handleStart() {
     if (symbol === '' || first === '') return;
-  
     fetch('./start')
       .then(response => {
         if (!response.ok) {
@@ -137,7 +153,7 @@ function App() {
       .catch(error => {
         console.error('Network: fail', error);
       });
-    
+
     setStarted(true);
   }
 
@@ -179,6 +195,7 @@ function App() {
           <button onClick={handleRestartGame} className="button-restart" id="restart">Restart</button>
         </div>
         <div>
+          <p id = "winner"></p>
           <header>Symbol?</header>
           <button onClick={() => handleFirstAndSymbol('./symbol', 'X')} className="button-start" id="xSymbol">X</button>
           <button onClick={() => handleFirstAndSymbol('./symbol', 'O')} className="button-start" id="oSymbol">O</button>

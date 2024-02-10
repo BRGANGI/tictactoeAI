@@ -45,12 +45,12 @@ def move():
         print("chosen move")
         print(move)
         GAME.get_move(move)
-    # if GAME.board.check_end() != NOT_FINISHED:
-    #     True
+    if GAME.board.check_end() != NOT_FINISHED:
+        return {'opp_move' : "", 'winner': GAME.get_winner()}
     opp_move = GAME.get_move()
     print("opp_move")
     print(opp_move)
-    return {'opp_move' : opp_move}
+    return {'opp_move' : opp_move, 'winner': GAME.get_winner()}
 
     # while game.board.check_end() == NOT_FINISHED:
     #     game.get_move()

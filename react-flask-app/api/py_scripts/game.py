@@ -1,6 +1,6 @@
 from py_scripts.ai import PlayerAI
 from py_scripts.board import Board
-from py_scripts.constants import SWITCH_TURN, X, O, DRAW
+from py_scripts.constants import SWITCH_TURN, X, O, DRAW, NOT_FINISHED
 
 class Game:
     def __init__(self, player_symbol, first):
@@ -46,11 +46,14 @@ class Game:
         return str(move)
 
     def get_winner(self):
+        if self.board.check_end() == NOT_FINISHED:
+            return ""
         if self.board.check_end() == DRAW:
-            print("Tied game!")
-            return
+            #print("Tied game!")
+            return "tie"
         if self.board.turn == self.ai_player.symbol:
-            winner = self.player_name
+            winner = self.player_symbol
         else:
-            winner = self.ai_player.name
-        print(f"{winner} has won the game!")
+            winner = self.ai_player.symbol
+       # print(f"{winner} has won the game!")
+        return winner

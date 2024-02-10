@@ -44,6 +44,7 @@ class PlayerAI:
                     node.val = LOSE
                 else:
                     node.val = WIN
+            
         return root
     
     def minimax(self, node, is_max):
@@ -104,6 +105,7 @@ class PlayerAI:
 
         return best_node.last_move
         
+    
     def check_symmetric_states(self, unique_states, state):
         for _ in range(4):
             if state in unique_states:

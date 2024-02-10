@@ -4,19 +4,9 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-NAME = None
 SIDE = None
 FIRST = None
 GAME = None
-
-#enter name
-
-@app.route('/name', methods=['POST'])
-def input_name():
-    global NAME
-    data = request.get_json()
-    NAME = data.get('name')
-    return 'name:success'
 
 
 
@@ -42,13 +32,25 @@ def choose_first():
 @app.route('/start')
 def start():
     print("here")
-    game = Game(NAME, SIDE, FIRST)
-
+    global GAME
+    GAME = Game(SIDE, FIRST)
     return 'game:success'
 
 
-
-
+@app.route('/move', methods=['POST'])
+def move():
+    if GAME.board.turn == SIDE:
+        data = request.get_json()
+        move = str(data.get('coord'))
+        print("chosen move")
+        print(move)
+        GAME.get_move(move)
+    # if GAME.board.check_end() != NOT_FINISHED:
+    #     True
+    opp_move = GAME.get_move()
+    print("opp_move")
+    print(opp_move)
+    return {'opp_move' : opp_move}
 
     # while game.board.check_end() == NOT_FINISHED:
     #     game.get_move()

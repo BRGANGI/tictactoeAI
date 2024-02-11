@@ -17,37 +17,7 @@ class PlayerAI:
         self.symbol = symbol
         self.nodes = 0
         board = Board(first)
-        # if first == self.symbol:
-        #     board = Board(self.symbol)
-        # else:
-        #     board = Board(SWITCH_TURN[self.symbol])
-        # print(f"AI is generating their tree...")
-        # self.game_tree = None#self.generate_game_tree(board, None)
-        
-    # def generate_game_tree(self, board, root):
-    #     if root == None:
-    #         root = Node(board, None, False) # root node
-    #     node_count = 0
-    #     potential_boards, potential_moves = self.get_potential_moves(board)
-    #     for cur_board, cur_move in zip(potential_boards, potential_moves):
-    #         if cur_board.check_end() == NOT_FINISHED:
-    #             node = Node(cur_board, cur_move, False)
-    #         else:
-    #             node = Node(cur_board, cur_move, True)
-    #         root.children.append(node)
-    #         self.nodes+=1
-    #         if node.is_terminal == False:
-    #             node = self.generate_game_tree(cur_board, node)
-    #         else:
-    #             if cur_board.check_end() == DRAW:
-    #                 node.val = DRAW
-    #             elif cur_board.turn == self.symbol:
-    #                 node.val = LOSE
-    #             else:
-    #                 node.val = WIN
-            
-    #     return root
-    
+
     def minimax(self, node, is_max, alpha, beta):
         potential_boards, potential_moves = self.get_potential_moves(node.board)
         if node.is_terminal:
@@ -95,12 +65,7 @@ class PlayerAI:
             return LOSE
         else:
             return WIN
-        
-    # def check_minimax(self, board):
-    #     if board.turn_no == 1:
-    #         self.game_tree = self.move_down(self.game_tree, board.state)
-    #     self.minimax(self.game_tree, True)
-    
+
     def get_potential_moves(self, board):
         potential_boards = []
         potential_moves = []
@@ -125,14 +90,7 @@ class PlayerAI:
         return tmp_board
     
     def choose_move(self, board):
-        # if board.state != self.game_tree.board.state:
-        #     self.game_tree = self.move_down(self.game_tree, board.state)
 
-        # nodes_sorted = sorted(self.game_tree.children, key=lambda child: (child.val,child.is_terminal), reverse=True)
-        # best_nodes = [node for node in nodes_sorted if (node.is_terminal == nodes_sorted[0].is_terminal and node.val == nodes_sorted[0].val)]
-
-        # best_node = rand_choice(best_nodes)
-        # self.game_tree = self.move_down(self.game_tree, best_node.board.state)
         root = Node(board, None, False)
         best_val, best_node = self.minimax(root, True, float('-inf'), float('+inf'))
         print(best_val)
@@ -153,13 +111,7 @@ class PlayerAI:
             for j in range(LENGTH):
                 rotated[j][LENGTH - 1 - i] = state[i][j]
         return rotated
-    
-    # def move_down(self, node, state):
-    #     for child in node.children:
-    #         if child.board.state == state:
-    #             return child
 
-        
 
 
 

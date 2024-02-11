@@ -12,6 +12,7 @@ function Buttons({setSymbol, symbol, setStarted, started, setGrid, coordToIndex,
     }
     function handleStart() {
         if (symbol === '' || first === '') return;
+        fadeOut("buttons");
         fetch('./start')
           .then(response => {
             if (!response.ok) {
@@ -66,21 +67,36 @@ function Buttons({setSymbol, symbol, setStarted, started, setGrid, coordToIndex,
         });
     
     }
+    function fadeOut(id) {
+      var element = document.getElementById(id);
+      var newOpacity = 1;
+      var timer = setInterval(function () {
+          if (newOpacity <= 0.1){
+              clearInterval(timer);
+              element.style.display = 'none';
+          }
+          element.style.opacity = newOpacity;
+          element.style.filter = 'alpha(opacity=' + newOpacity * 100 + ")";
+          newOpacity -= newOpacity * 0.1;
+      }, 50);
+    }
+
+
+
     return (
-        <div>
+        <div class="button-container" id="buttons">
             <div>
-                <button onClick={handleStart} className="button-start" id="start">Start</button>
-                <button onClick={handleRestartGame} className="button-restart" id="restart">Restart</button>
+                <button onClick={handleStart} className="button" id="start">Start</button>
+                <button onClick={handleRestartGame} className="button" id="restart">Restart</button>
             </div>
             <div>
-            <p id = "winner"></p>
             <header>Symbol?</header>
-                <button onClick={() => handleFirstAndSymbol('./symbol', 'X')} className="button-start">X</button>
-                <button onClick={() => handleFirstAndSymbol('./symbol', 'O')} className="button-start">O</button>
+                <button onClick={() => handleFirstAndSymbol('./symbol', 'X')} className="button">X</button>
+                <button onClick={() => handleFirstAndSymbol('./symbol', 'O')} className="button">O</button>
             <p>{symbol}</p>
             <header>First?</header>
-                <button onClick={() => handleFirstAndSymbol('./first', 'X')} className="button-start">X</button>
-                <button onClick={() => handleFirstAndSymbol('./first', 'O')} className="button-start">O</button>
+                <button onClick={() => handleFirstAndSymbol('./first', 'X')} className="button">X</button>
+                <button onClick={() => handleFirstAndSymbol('./first', 'O')} className="button">O</button>
             <p>{first}</p>
             </div>
         </div>

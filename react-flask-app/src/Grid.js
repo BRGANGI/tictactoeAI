@@ -52,7 +52,7 @@ function Grid({setStarted, started, symbol, grid, updateGrid, indexToCoord, coor
             <button
               key={index}
               onClick={() => clickSquare(index)}
-              className="button-grid"
+              className="grid"
               disabled={value !== ''}
             >
               {value}

@@ -37,6 +37,7 @@ function App() {
         <Grid setStarted={setStarted} started={started} symbol={symbol} 
         grid={grid} updateGrid={updateGrid} indexToCoord={indexToCoord} 
         coordToIndex={coordToIndex} />
+        <p id = "winner"></p>
         <Buttons  setSymbol={setSymbol} symbol={symbol} 
           setStarted={setStarted} started={started} 
           setGrid={setGrid} coordToIndex={coordToIndex} 

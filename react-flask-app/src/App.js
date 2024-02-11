@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Grid from './Grid';
+import Buttons from './Buttons';
 
 
 
@@ -9,7 +10,6 @@ function App() {
   const [first, setFirst] = useState('');
   const [symbol, setSymbol] = useState('');
   const [grid, setGrid] = useState(Array(9).fill('')); 
-  const [winner, setWinner] = useState('');
 
   const symbols = {
     'X': 'O',
@@ -38,10 +38,7 @@ function App() {
   }, []);
 
   function clickSquare(index) {
-    console.log("Started", started);
-    console.log("grid", grid[index]);
-    console.log("winner", winner);
-    if (!started || grid[index] !== '' || winner !== '') return;
+    if (!started || grid[index] !== '') return;
     updateGrid(index, symbol);
     const moveData = { coord: indexToCoord[index] };
         
@@ -71,7 +68,7 @@ function App() {
   }
   
   function handleWin(winner) {
-    setWinner(winner);
+    setStarted(false);
     if (winner === 'tie') {
       document.getElementById("winner").textContent="It's a tie";
     } else {
@@ -91,7 +88,6 @@ function App() {
   function handleRestartGame() {
     setSymbol('')
     setFirst('')
-    setWinner('')
     setStarted(false)
     setGrid(Array(9).fill(''));
     document.getElementById("winner").textContent="";
@@ -125,7 +121,7 @@ function App() {
   }
 
   function handleStart() {
-    if (symbol === '' || first === '' || winner !== '') return;
+    if (symbol === '' || first === '') return;
     fetch('./start')
       .then(response => {
         if (!response.ok) {
@@ -162,21 +158,7 @@ function App() {
     <div className="App">    
       <header className="App-header">
         <Grid grid={grid} clickSquare={clickSquare} />
-        <div>
-          <button onClick={handleStart} className="button-start" id="start">Start</button>
-          <button onClick={handleRestartGame} className="button-restart" id="restart">Restart</button>
-        </div>
-        <div>
-          <p id = "winner"></p>
-          <header>Symbol?</header>
-          <button onClick={() => handleFirstAndSymbol('./symbol', 'X')} className="button-start" id="xSymbol">X</button>
-          <button onClick={() => handleFirstAndSymbol('./symbol', 'O')} className="button-start" id="oSymbol">O</button>
-          <p>{symbol}</p>
-          <header>First?</header>
-          <button onClick={() => handleFirstAndSymbol('./first', 'X')} className="button-start" id="xFirst">X</button>
-          <button onClick={() => handleFirstAndSymbol('./first', 'O')} className="button-start" id="oFirst">O</button>
-          <p>{first}</p>
-        </div>
+<Buttons handleStart={handleStart} handleRestartGame={handleRestartGame} handleFirstAndSymbol={handleFirstAndSymbol} symbol={symbol} first={first} />
 
       </header>
     </div>

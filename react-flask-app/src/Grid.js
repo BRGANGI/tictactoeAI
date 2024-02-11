@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Grid({ grid, clickSquare }) {
+function Grid({grid, clickSquare}) {
     return (
         <div className="grid-container" id="tic-tac-toe-grid">
           {grid.map((value, index) => (

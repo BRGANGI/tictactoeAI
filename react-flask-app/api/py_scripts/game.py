@@ -27,8 +27,8 @@ class Game:
     def get_move(self, move_chosen = None):
         print(f"----{self.board.turn}'s turn----")
         if self.board.turn == self.ai_player.symbol:
-            if self.board.turn_no <= 1:
-                self.ai_player.check_minimax(self.board)
+            # if self.board.turn_no <= 1:
+            #     self.ai_player.check_minimax(self.board)
             cur_name = self.ai_player.name
             move = self.ai_player.choose_move(self.board)
             self.board.make_move(move, True)   

@@ -1,7 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {fadeOut} from './Utility' 
 
-function Buttons({setSymbol, symbol, setStarted, started, setGrid, coordToIndex, updateGrid}) {
+
+
+function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex, updateGrid}) {
     const [first, setFirst] = useState('');
+    
+    useEffect(() => {
+      if (first !== '' && symbol !== '' && !started) {
+          handleStart();
+      }
+  }, [first, symbol, started]);
+    useEffect(() => {
+        console.log("Sym", symbol);
+    }, [symbol]);
+
+    useEffect(() => {
+        console.log("First", first);
+    }, [first]);
+
 
     function handleRestartGame() {
         setSymbol('')
@@ -10,10 +27,13 @@ function Buttons({setSymbol, symbol, setStarted, started, setGrid, coordToIndex,
         setGrid(Array(9).fill(''));
         document.getElementById("winner").textContent="";
     }
+
+
     function handleStart() {
-        if (symbol === '' || first === '') return;
         fadeOut("buttons");
-        fetch('./start')
+        console.log("Coord")
+
+        return fetch('./start')
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -28,6 +48,7 @@ function Buttons({setSymbol, symbol, setStarted, started, setGrid, coordToIndex,
               .then(response => response.json()) 
               .then(response => {
                 const [x, y] = response.opp_move.split(' ');
+                console.log("First",first)
                 updateGrid(coordToIndex(`${x} ${y}`), first);
               })
               .catch(error => {
@@ -42,16 +63,22 @@ function Buttons({setSymbol, symbol, setStarted, started, setGrid, coordToIndex,
     }
 
     function handleFirstAndSymbol(route, sym) {
-        if (started) return; 
-    
-        const data = {};
-        if (route === './symbol') {
-          data.symbol = sym;
-          setSymbol(sym);
-        } else if (route === './first') {
-          data.first = sym;
-          setFirst(sym);
-        }
+      if (started) return; 
+
+      const data = {};
+      if (route === './symbol') {
+          setSymbol(prevSymbol => {
+              data.symbol = sym;
+              return sym; 
+          });
+      } else if (route === './first') {
+          setFirst(prevFirst => {
+              data.first = sym;
+              return sym; 
+          });
+      }
+  
+
         return fetch(route, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -67,24 +94,11 @@ function Buttons({setSymbol, symbol, setStarted, started, setGrid, coordToIndex,
         });
     
     }
-    function fadeOut(id) {
-      var element = document.getElementById(id);
-      var newOpacity = 1;
-      var timer = setInterval(function () {
-          if (newOpacity <= 0.1){
-              clearInterval(timer);
-              element.style.display = 'none';
-          }
-          element.style.opacity = newOpacity;
-          element.style.filter = 'alpha(opacity=' + newOpacity * 100 + ")";
-          newOpacity -= newOpacity * 0.1;
-      }, 50);
-    }
 
 
 
     return (
-        <div class="button-container" id="buttons">
+        <div className="button-container" id="buttons">
             <div>
                 <button onClick={handleStart} className="button" id="start">Start</button>
                 <button onClick={handleRestartGame} className="button" id="restart">Restart</button>

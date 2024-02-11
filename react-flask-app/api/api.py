@@ -52,12 +52,6 @@ def move():
     print(opp_move)
     return {'opp_move' : opp_move, 'winner': GAME.get_winner()}
 
-    # while game.board.check_end() == NOT_FINISHED:
-    #     game.get_move()
-    # game.get_winner()
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

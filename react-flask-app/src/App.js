@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Grid from './Grid';
 
 function App() {
   const [started, setStarted] = useState(false);
   const [first, setFirst] = useState('');
   const [symbol, setSymbol] = useState('');
   const [grid, setGrid] = useState(Array(9).fill('')); 
-  const [turn, setTurn] = useState('');
   const [winner, setWinner] = useState('');
-  const BOARD_DIM = 3;
 
   const symbols = {
     'X': 'O',
     'O': 'X'
   }
-
-
   const indexToCoord = {
     0: "0 2",
     1: "1 2",
@@ -39,12 +36,13 @@ function App() {
   }, []);
 
   function clickSquare(index) {
+    console.log("Started", started);
+    console.log("grid", grid[index]);
+    console.log("winner", winner);
     if (!started || grid[index] !== '' || winner !== '') return;
     updateGrid(index, symbol);
     const moveData = { coord: indexToCoord[index] };
-    
-    var aiMoveIndex;
-    
+        
     fetch('./move', {
       method: 'POST',
       headers: {
@@ -59,9 +57,8 @@ function App() {
         handleWin(response.winner);
       }
       const [x, y] = response.opp_move.split(' ');
-      aiMoveIndex = coordToIndex(`${x} ${y}`);
-      updateGrid(aiMoveIndex, symbols[symbol]);
-      changeTurn(turn);
+
+      updateGrid(coordToIndex(`${x} ${y}`), symbols[symbol]);
       if (response.winner !== '') {
         handleWin(response.winner);
       }
@@ -108,7 +105,6 @@ function App() {
     } else if (route === './first') {
       data.first = sym;
       setFirst(sym);
-      setTurn(sym);
     }
     return fetch(route, {
       method: 'POST',
@@ -127,7 +123,7 @@ function App() {
   }
 
   function handleStart() {
-    if (symbol === '' || first === '') return;
+    if (symbol === '' || first === '' || winner !== '') return;
     fetch('./start')
       .then(response => {
         if (!response.ok) {
@@ -149,47 +145,21 @@ function App() {
             console.error('Error processing move:', error);
           });
         }
+        setStarted(true);
       })
       .catch(error => {
         console.error('Network: fail', error);
       });
 
-    setStarted(true);
+      
+
   }
 
-  function changeTurn(cur) {
-    setTurn(cur => (cur === 'X' ? 'O' : 'X'));
-  }
-
-  function xyToIndex(x, y) {
-    x = parseInt(x, 10);
-    y = parseInt(y, 10);
-    var index = (BOARD_DIM - y - 1) * BOARD_DIM + x;
-    return index;
-  }
-
-  function indexToXY(index) {
-    var x = index % BOARD_DIM;
-    var y = Math.floor(index / BOARD_DIM);
-    return `${x} ${y}`;
-}
-  
 
   return (
     <div className="App">    
       <header className="App-header">
-        <div className="grid-container" id="tic-tac-toe-grid">
-          {grid.map((value, index) => (
-            <button
-              key={index}
-              onClick={() => clickSquare(index)}
-              className="button-grid"
-              disabled={value !== ''}
-            >
-              {value}
-            </button>
-          ))}
-        </div>
+        <Grid grid={grid} clickSquare={clickSquare} />
         <div>
           <button onClick={handleStart} className="button-start" id="start">Start</button>
           <button onClick={handleRestartGame} className="button-restart" id="restart">Restart</button>

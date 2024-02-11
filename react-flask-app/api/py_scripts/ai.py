@@ -105,7 +105,6 @@ class PlayerAI:
 
         return best_node.last_move
         
-    
     def check_symmetric_states(self, unique_states, state):
         for _ in range(4):
             if state in unique_states:

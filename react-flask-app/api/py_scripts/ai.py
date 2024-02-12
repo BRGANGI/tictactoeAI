@@ -93,8 +93,6 @@ class PlayerAI:
 
         root = Node(board, None, False)
         best_val, best_node = self.minimax(root, True, float('-inf'), float('+inf'))
-        print(best_val)
-        print(best_node.last_move)
         return best_node.last_move
         
     def check_symmetric_states(self, unique_states, state):

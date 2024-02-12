@@ -1,5 +1,5 @@
 import React from 'react';
-import { symbols } from './Utility';
+import { symbols,fadeOut, fadeIn } from './Utility';
 function Grid({setStarted, started, symbol, grid, updateGrid, indexToCoord, coordToIndex, turn}) {
 
 
@@ -40,6 +40,7 @@ function Grid({setStarted, started, symbol, grid, updateGrid, indexToCoord, coor
       } else {
         document.getElementById("winner").textContent=`${winner} has won`;
       }
+      fadeIn('restart')
     }
   
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {fadeOut} from './Utility' 
+import {fadeOut, fadeIn} from './Utility' 
 
 
 
@@ -11,7 +11,7 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
         setTurn(first);
         handleStart();
       }
-      }, [first, symbol, started]);
+      }, [first, symbol, started, handleStart, setTurn]);
       // useEffect(() => {
       //       console.log("Sym", symbol);
       // }, [symbol]);
@@ -31,8 +31,9 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
 
 
     function handleStart() {
-        fadeOut("buttons");
-        console.log("Coord")
+      fadeOut('first').then(() => {
+        fadeOut('buttons'); 
+      });
 
         return fetch('./start')
           .then(response => {
@@ -64,12 +65,14 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
 
     function handleFirstAndSymbol(route, sym) {
       if (started) return; 
-
       const data = {};
       if (route === './symbol') {
           setSymbol(prevSymbol => {
               data.symbol = sym;
               return sym; 
+          });
+          fadeOut('symbol').then(() => {
+            fadeIn('first'); 
           });
       } else if (route === './first') {
           setFirst(prevFirst => {
@@ -99,19 +102,21 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
 
     return (
         <div className="button-container" id="buttons">
-            <div>
-                <button onClick={handleStart} className="button" id="start">Start</button>
-                <button onClick={handleRestartGame} className="button" id="restart">Restart</button>
+            <div class="restart-button" id="restart">
+                {/* <button onClick={handleStart} className="button" id="start">Start</button> */}
+                <button onClick={handleRestartGame} className="button">Restart</button>
             </div>
-            <div>
-            <header>Symbol?</header>
+            <div className="symbol-button-container">
+              <div id='symbol'>
+                <header>Symbol?</header>
                 <button onClick={() => handleFirstAndSymbol('./symbol', 'X')} className="button">X</button>
                 <button onClick={() => handleFirstAndSymbol('./symbol', 'O')} className="button">O</button>
-            <p>{symbol}</p>
-            <header>First?</header>
+              </div>
+              <div id='first'>
+                <header>First?</header>
                 <button onClick={() => handleFirstAndSymbol('./first', 'X')} className="button">X</button>
                 <button onClick={() => handleFirstAndSymbol('./first', 'O')} className="button">O</button>
-            <p>{first}</p>
+              </div>
             </div>
         </div>
     );

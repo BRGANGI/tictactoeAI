@@ -25,3 +25,8 @@ export function fadeOut(id) {
         newOpacity += 0.1; 
     }, 50);
 }
+
+export const symbols = {
+    'X': 'O',
+    'O': 'X'
+  }

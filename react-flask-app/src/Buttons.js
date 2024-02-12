@@ -3,21 +3,22 @@ import {fadeOut} from './Utility'
 
 
 
-function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex, updateGrid}) {
+function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex, updateGrid, setTurn}) {
     const [first, setFirst] = useState('');
     
     useEffect(() => {
       if (first !== '' && symbol !== '' && !started) {
-          handleStart();
+        setTurn(first);
+        handleStart();
       }
-  }, [first, symbol, started]);
-    useEffect(() => {
-        console.log("Sym", symbol);
-    }, [symbol]);
+      }, [first, symbol, started]);
+      // useEffect(() => {
+      //       console.log("Sym", symbol);
+      // }, [symbol]);
 
-    useEffect(() => {
-        console.log("First", first);
-    }, [first]);
+      // useEffect(() => {
+      //   console.log("First", first);
+      // }, [first]);
 
 
     function handleRestartGame() {
@@ -48,7 +49,6 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
               .then(response => response.json()) 
               .then(response => {
                 const [x, y] = response.opp_move.split(' ');
-                console.log("First",first)
                 updateGrid(coordToIndex(`${x} ${y}`), first);
               })
               .catch(error => {

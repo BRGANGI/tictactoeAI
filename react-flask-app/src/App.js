@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import './App.css';
 import Grid from './Grid';
 import Buttons from './Buttons';
+import { symbols } from './Utility';
+
 
 function App() {
   const [started, setStarted] = useState(false);
   const [symbol, setSymbol] = useState('');
   const [grid, setGrid] = useState(Array(9).fill('')); 
+  const [turn, setTurn] = useState('');
+
   const indexToCoord = {
     0: "0 2",
     1: "1 2",
@@ -29,6 +33,7 @@ function App() {
       newGrid[index] = player;
       return newGrid;
     });
+    setTurn(symbols[player])
   }
   
   
@@ -37,12 +42,12 @@ function App() {
       <header className="App-header">
         <Grid setStarted={setStarted} started={started} symbol={symbol} 
         grid={grid} updateGrid={updateGrid} indexToCoord={indexToCoord} 
-        coordToIndex={coordToIndex} />
+        coordToIndex={coordToIndex} turn={turn} />
         <p id = "winner"></p>
         <Buttons  setSymbol={setSymbol} symbol={symbol} 
           setStarted={setStarted} started={started} 
           setGrid={setGrid} coordToIndex={coordToIndex} 
-          updateGrid={updateGrid} />
+          updateGrid={updateGrid} setTurn={setTurn} />
       </header>
     </div>
   );

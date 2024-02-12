@@ -1,13 +1,10 @@
 import React from 'react';
+import { symbols } from './Utility';
+function Grid({setStarted, started, symbol, grid, updateGrid, indexToCoord, coordToIndex, turn}) {
 
-function Grid({setStarted, started, symbol, grid, updateGrid, indexToCoord, coordToIndex}) {
-  const symbols = {
-    'X': 'O',
-    'O': 'X'
-  }
 
   function clickSquare(index) {
-      if (!started || grid[index] !== '') return;
+      if (!started || grid[index] !== '' || turn !== symbol) return;
       updateGrid(index, symbol);
       const moveData = { coord: indexToCoord[index] };
           

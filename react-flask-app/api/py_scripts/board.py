@@ -1,10 +1,17 @@
+# board.py
+# Defines state of a game board at any time. Allows players to make moves and performs validation. 
+# Also checks for game end.
+# Created and updated for overall game state. Can also be used to create temporary boards for use
+# in minimax algorithm
+
+
 from py_scripts.constants import SWITCH_TURN, FINISHED, NOT_FINISHED, DRAW, EMPTY, LENGTH
 
 class Board:
     def __init__(self, turn):
         self.state = [[EMPTY] * LENGTH for _ in range(LENGTH)] # for 3 by 3: [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
-        self.turn = turn
-        self.turn_no = 0
+        self.turn = turn    # current turn
+        self.turn_no = 0    # how many turns have passed 
 
     # Validates move, returns 1 on fail and 0 on success
     def validate_move(self, move, auto):
@@ -83,6 +90,7 @@ class Board:
         return NOT_FINISHED
 
     # Print game board
+    # Only for terminal use
     def print_board(self):
         print(" " + LENGTH *"-")
         for j in range(LENGTH - 1, -1, -1):

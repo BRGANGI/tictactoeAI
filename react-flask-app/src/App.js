@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Grid from './Grid';
 import Buttons from './Buttons';
+import Restart from './Restart';
 import { symbols } from './Utility';
 
 
@@ -10,6 +11,7 @@ function App() {
   const [symbol, setSymbol] = useState('');
   const [grid, setGrid] = useState(Array(9).fill('')); 
   const [turn, setTurn] = useState('');
+  const [first, setFirst] = useState('');
 
   const indexToCoord = {
     0: "0 2",
@@ -47,7 +49,9 @@ function App() {
         <Buttons  setSymbol={setSymbol} symbol={symbol} 
           setStarted={setStarted} started={started} 
           setGrid={setGrid} coordToIndex={coordToIndex} 
-          updateGrid={updateGrid} setTurn={setTurn} />
+          updateGrid={updateGrid} setTurn={setTurn}
+          first={first} setFirst={setFirst} />
+        <Restart setSymbol={setSymbol} setStarted={setStarted} setGrid={setGrid} setFirst={setFirst} />
       </header>
     </div>
   );

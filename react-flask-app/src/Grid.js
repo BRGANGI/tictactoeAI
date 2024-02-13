@@ -17,7 +17,6 @@ function Grid({setStarted, started, symbol, grid, updateGrid, indexToCoord, coor
       })
       .then(response => response.json())
       .then(response => {
-        console.log("Response: ", response);
         if (response.opp_move === '') {
           handleWin(response.winner);
         }

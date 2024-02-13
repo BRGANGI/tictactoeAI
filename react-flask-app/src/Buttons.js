@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {fadeOut, fadeIn} from './Utility' 
 
 
 
-function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex, updateGrid, setTurn}) {
-    const [first, setFirst] = useState('');
+function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex, updateGrid, setTurn, first, setFirst}) {
     
     useEffect(() => {
       if (first !== '' && symbol !== '' && !started) {
@@ -12,23 +11,6 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
         handleStart();
       }
       }, [first, symbol, started, handleStart, setTurn]);
-      // useEffect(() => {
-      //       console.log("Sym", symbol);
-      // }, [symbol]);
-
-      // useEffect(() => {
-      //   console.log("First", first);
-      // }, [first]);
-
-
-    function handleRestartGame() {
-        setSymbol('')
-        setFirst('')
-        setStarted(false)
-        setGrid(Array(9).fill(''));
-        document.getElementById("winner").textContent="";
-    }
-
 
     function handleStart() {
       fadeOut('first').then(() => {
@@ -67,18 +49,14 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
       if (started) return; 
       const data = {};
       if (route === './symbol') {
-          setSymbol(prevSymbol => {
-              data.symbol = sym;
-              return sym; 
-          });
+          data.symbol = sym;
+          setSymbol(sym)
           fadeOut('symbol').then(() => {
             fadeIn('first'); 
           });
       } else if (route === './first') {
-          setFirst(prevFirst => {
-              data.first = sym;
-              return sym; 
-          });
+          data.first = sym;
+          setFirst(sym)
       }
   
 
@@ -102,10 +80,6 @@ function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex,
 
     return (
         <div className="button-container" id="buttons">
-            <div class="restart-button" id="restart">
-                {/* <button onClick={handleStart} className="button" id="start">Start</button> */}
-                <button onClick={handleRestartGame} className="button">Restart</button>
-            </div>
             <div className="symbol-button-container">
               <div id='symbol'>
                 <header>Symbol?</header>

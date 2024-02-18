@@ -27,7 +27,7 @@ export function fadeIn(id) {
             }
             element.style.opacity = newOpacity;
             element.style.filter = 'alpha(opacity=' + newOpacity * 100 + ")";
-            newOpacity += newOpacity * 0.1;
+            newOpacity += 0.1;
         }, 50);
     });
 }

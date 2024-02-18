@@ -13,7 +13,7 @@ WIN = 1
 LOSE = -1
 DRAW = 0
 
-# Game state evalutation values
+# Game state evaluation values
 FINISHED = 1
 NOT_FINISHED = -1
 

@@ -10,39 +10,39 @@ function Buttons({setSymbol, symbol, started, setStarted, coordToIndex, updateGr
         setTurn(first);
         handleStart();
       }
-      }, [first, symbol, started, handleStart, setTurn]);
+    }, [first, symbol, started, handleStart, setTurn]);
 
     function handleStart() {
       fadeOut('first').then(() => {
         fadeOut('buttons'); 
       });
 
-        return fetch('./start')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            if (first !== symbol) {
-              fetch('./move', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-              })
-              .then(response => response.json()) 
-              .then(response => {
-                const [x, y] = response.opp_move.split(' ');
-                updateGrid(coordToIndex(`${x} ${y}`), first);
-              })
-              .catch(error => {
-                console.error('Error processing move:', error);
-              });
-            }
-            setStarted(true);
-          })
-          .catch(error => {
-            console.error('Network: fail', error);
-          });
+      return fetch('./start')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          if (first !== symbol) {
+            fetch('./move', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => response.json()) 
+            .then(response => {
+              const [x, y] = response.opp_move.split(' ');
+              updateGrid(coordToIndex(`${x} ${y}`), first);
+            })
+            .catch(error => {
+              console.error('Error processing move:', error);
+            });
+          }
+          setStarted(true);
+        })
+        .catch(error => {
+          console.error('Network: fail', error);
+        });
     }
 
     function handleFirstAndSymbol(route, sym) {

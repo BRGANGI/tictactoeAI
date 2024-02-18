@@ -3,7 +3,7 @@ import {fadeOut, fadeIn} from './Utility'
 
 
 
-function Buttons({setSymbol, symbol, started, setStarted, setGrid, coordToIndex, updateGrid, setTurn, first, setFirst}) {
+function Buttons({setSymbol, symbol, started, setStarted, coordToIndex, updateGrid, setTurn, first, setFirst}) {
     
     useEffect(() => {
       if (first !== '' && symbol !== '' && !started) {

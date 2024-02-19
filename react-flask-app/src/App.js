@@ -3,7 +3,7 @@ import './App.css';
 import Grid from './Grid';
 import Buttons from './Buttons';
 import Restart from './Restart';
-import { symbols } from './Utility';
+import { symbols, fadeIn } from './Utility';
 
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
       return newGrid;
     });
     setTurn(symbols[player])
+    fadeIn('grid'+index)
   }
   
   

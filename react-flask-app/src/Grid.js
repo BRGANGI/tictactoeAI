@@ -44,18 +44,20 @@ function Grid({setStarted, started, symbol, grid, updateGrid, indexToCoord, coor
   
 
     return (
-        <div className="grid-container" id="tic-tac-toe-grid">
-          {grid.map((value, index) => (
-            <button
-              key={index}
-              onClick={() => clickSquare(index)}
-              className="grid"
-              disabled={value !== ''}
-            >
+      <div className="grid-container" id="grid">
+        {grid.map((value, index) => (
+          <button
+            key={index}
+            onClick={() => clickSquare(index)}
+            className="grid"
+            disabled={value !== ''}
+          >
+            <span id={'grid' + index} style={{'opacity':0}}>
               {value}
-            </button>
-          ))}
-        </div>
+            </span>
+          </button>
+        ))}
+      </div>
     );
 }
 

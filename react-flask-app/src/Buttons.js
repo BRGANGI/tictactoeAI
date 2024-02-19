@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import {fadeOut, fadeIn} from './Utility' 
 
-
-
-function Buttons({setSymbol, symbol, started, setStarted, coordToIndex, updateGrid, setTurn, first, setFirst}) {
-    
+function Buttons({setSymbol, symbol, started, setStarted, coordToIndex, updateGrid, setTurn, first, setFirst}) { 
     useEffect(() => {
       if (first !== '' && symbol !== '' && !started) {
         setTurn(first);
@@ -58,8 +55,6 @@ function Buttons({setSymbol, symbol, started, setStarted, coordToIndex, updateGr
           data.first = sym;
           setFirst(sym)
       }
-  
-
         return fetch(route, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -73,10 +68,7 @@ function Buttons({setSymbol, symbol, started, setStarted, coordToIndex, updateGr
         .catch(error => {
           console.error('Network: fail', error);
         });
-    
     }
-
-
 
     return (
         <div className="button-container" id="buttons">

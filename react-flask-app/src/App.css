@@ -1,5 +1,14 @@
 .App {
   text-align: center;
+
+
+  font-family: "Nova Round", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.App * {
+  font-family: inherit;
 }
 
 .App-logo {
